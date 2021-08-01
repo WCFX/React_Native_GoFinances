@@ -26,7 +26,7 @@ export const UserWrapper = styled.View`
   align-items: center;
   margin-top: ${Platform.OS === 'ios'
     ? getStatusBarHeight() + RFValue(28)
-    : 10}px;
+    : 0}px;
 `;
 
 export const UserInfo = styled.View`
@@ -69,4 +69,8 @@ export const HightLightCardContainer = styled.ScrollView.attrs({
   horizontal: true,
   showsHorizontalScrollIndicator: false,
   contentContainerStyle: { paddingHorizontal: 24 },
-})``;
+})`
+  width: 100%;
+  position: absolute;
+  margin-top: ${RFPercentage(20)}px;
+`;

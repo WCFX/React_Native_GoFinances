@@ -11,6 +11,7 @@ export const Container = styled.View`
   border-radius: 5px;
   padding: 19px 23px;
   padding-bottom: ${RFValue(42)}px;
+  margin: ${RFValue(10)}px;
 `;
 
 export const Header = styled.View`
