@@ -10,7 +10,7 @@ const Home = () => {
   const data = [
     {
       type: 'positive',
-      title: 'Salário Midway',
+      title: 'Venda de App financeiro',
       amount: 'R$5.700,00',
       category: {
         name: 'Salário',
@@ -20,21 +20,61 @@ const Home = () => {
     },
     {
       type: 'negative',
+      title: 'Bicicleta Spinning',
+      amount: 'R$1.999,00',
+      category: {
+        name: 'Compras',
+        icon: 'shopping-bag',
+      },
+      date: '31/08/2021',
+    },
+    {
+      type: 'negative',
       title: 'Credicard',
       amount: 'R$4.500,00',
       category: {
         name: 'Cartão de Crédito',
-        icon: 'dollar-sign',
+        icon: 'credit-card',
       },
       date: '02/08/2021',
     },
     {
       type: 'positive',
-      title: 'Recisão JBQ',
+      title: 'Salário',
       amount: 'R$13.700,00',
       category: {
         name: 'Emprego',
         icon: 'dollar-sign',
+      },
+      date: '10/08/2021',
+    },
+    {
+      type: 'negative',
+      title: 'Mx Master 3',
+      amount: 'R$580,00',
+      category: {
+        name: 'Compras',
+        icon: 'shopping-bag',
+      },
+      date: '10/08/2021',
+    },
+    {
+      type: 'negative',
+      title: 'Cadeira Gamer',
+      amount: 'R$1.600,00',
+      category: {
+        name: 'Compras',
+        icon: 'shopping-bag',
+      },
+      date: '10/08/2021',
+    },
+    {
+      type: 'negative',
+      title: 'Monitor 29 inch',
+      amount: 'R$1.700,00',
+      category: {
+        name: 'Compras',
+        icon: 'shopping-bag',
       },
       date: '10/08/2021',
     },
