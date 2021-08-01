@@ -1,4 +1,7 @@
+import { Platform } from 'react-native';
+
 import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import styled from 'styled-components/native';
@@ -21,6 +24,9 @@ export const UserWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-top: ${Platform.OS === 'ios'
+    ? getStatusBarHeight() + RFValue(28)
+    : 10}px;
 `;
 
 export const UserInfo = styled.View`
@@ -58,3 +64,9 @@ export const Icon = styled(AntDesign)`
   color: ${({ theme }) => theme.colors.secondary};
   font-size: ${RFValue(24)}px;
 `;
+
+export const HightLightCardContainer = styled.ScrollView.attrs({
+  horizontal: true,
+  showsHorizontalScrollIndicator: false,
+  contentContainerStyle: { paddingHorizontal: 24 },
+})``;

@@ -2,6 +2,8 @@ import React from 'react';
 
 import * as S from './styles';
 
+import HighlightCard from '../../components/HighlightCard';
+
 const Home: React.FC = () => (
   <S.Container>
     <S.Header>
@@ -24,6 +26,15 @@ const Home: React.FC = () => (
         </S.LogoutButton>
       </S.UserWrapper>
     </S.Header>
+
+    <S.HightLightCardContainer
+      showsHorizontalScrollIndicator={false}
+      horizontal
+    >
+      <HighlightCard />
+      <HighlightCard />
+      <HighlightCard />
+    </S.HightLightCardContainer>
   </S.Container>
 );
 
