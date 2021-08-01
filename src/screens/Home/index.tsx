@@ -4,7 +4,7 @@ import * as S from './styles';
 
 import HighlightCard from '../../components/HighlightCard';
 
-const Home: React.FC = () => (
+const Home = () => (
   <S.Container>
     <S.Header>
       <S.UserWrapper>
@@ -31,9 +31,24 @@ const Home: React.FC = () => (
       showsHorizontalScrollIndicator={false}
       horizontal
     >
-      <HighlightCard />
-      <HighlightCard />
-      <HighlightCard />
+      <HighlightCard
+        type="up"
+        title="Entradas"
+        amount="R$17.000,00"
+        lastTransaction="Ultima entrada dia 13 de abril"
+      />
+      <HighlightCard
+        type="down"
+        title="Saídas"
+        amount="R$7.000,00"
+        lastTransaction="Ultima entrada dia 08 de abril"
+      />
+      <HighlightCard
+        type="total"
+        title="Total"
+        amount="R$10.000,00"
+        lastTransaction="01 à 16 de Abril"
+      />
     </S.HightLightCardContainer>
   </S.Container>
 );

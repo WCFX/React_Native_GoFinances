@@ -1,17 +1,21 @@
 import { RFValue } from 'react-native-responsive-fontsize';
 import Feather from 'react-native-vector-icons/Feather';
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 
-export const Container = styled.View`
-  background-color: ${({ theme }) => theme.colors.shape};
+interface TypeProps {
+  type: 'up' | 'down' | 'total';
+}
+
+export const Container = styled.View<TypeProps>`
+  background-color: ${({ theme, type }) =>
+    type === 'total' ? theme.colors.secondary : theme.colors.shape};
 
   width: ${RFValue(300)}px;
-  border: 2px solid ${({ theme }) => theme.colors.background};
-
-  border-radius: 5px;
+  border-radius: 18px;
   padding: 19px 23px;
   padding-bottom: ${RFValue(42)}px;
   margin: ${RFValue(10)}px;
+  elevation: 8;
 `;
 
 export const Header = styled.View`
@@ -19,30 +23,45 @@ export const Header = styled.View`
   justify-content: space-between;
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text<TypeProps>`
   font-family: ${({ theme }) => theme.fonts.Poppins400};
   font-size: ${RFValue(12)}px;
-  color: ${({ theme }) => theme.colors.title};
+  color: ${({ theme, type }) =>
+    type === 'total' ? theme.colors.shape : theme.colors.title};
 `;
 
-export const Icon = styled(Feather)`
+export const Icon = styled(Feather)<TypeProps>`
   font-size: ${RFValue(40)}px;
-  /* color: ${({ theme }) =>
-    'sucess' ? theme.colors.success : theme.colors.attention}; */
-  color: ${({ theme }) => theme.colors.success};
+  ${({ type }) =>
+    type === 'up' &&
+    css`
+      color: ${({ theme }) => theme.colors.success};
+    `}
+  ${({ type }) =>
+    type === 'down' &&
+    css`
+      color: ${({ theme }) => theme.colors.attention};
+    `}
+  ${({ type }) =>
+    type === 'total' &&
+    css`
+      color: ${({ theme }) => theme.colors.shape};
+    `}
 `;
 
 export const Footer = styled.View``;
 
-export const Amount = styled.Text`
+export const Amount = styled.Text<TypeProps>`
   font-family: ${({ theme }) => theme.fonts.Poppins500};
   font-size: ${RFValue(32)}px;
-  color: ${({ theme }) => theme.colors.title};
+  color: ${({ theme, type }) =>
+    type === 'total' ? theme.colors.shape : theme.colors.title};
   margin-top: ${RFValue(36)}px;
 `;
 
-export const LastTransaction = styled.Text`
+export const LastTransaction = styled.Text<TypeProps>`
   font-family: ${({ theme }) => theme.fonts.Poppins400};
   font-size: ${RFValue(12)}px;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme, type }) =>
+    type === 'total' ? theme.colors.shape : theme.colors.text};
 `;

@@ -2,16 +2,34 @@ import React from 'react';
 
 import * as S from './styles';
 
-const HighlightCard: React.FC = () => (
-  <S.Container>
+interface HighLightCardProps {
+  type: 'up' | 'down' | 'total';
+  title: string;
+  amount: string;
+  lastTransaction: string;
+}
+
+const icon = {
+  up: 'arrow-up-circle',
+  down: 'arrow-down-circle',
+  total: 'dollar-sign',
+};
+
+const HighlightCard = ({
+  type,
+  title,
+  amount,
+  lastTransaction,
+}: HighLightCardProps) => (
+  <S.Container type={type}>
     <S.Header>
-      <S.Title>Entradas</S.Title>
-      <S.Icon name="arrow-up-circle" />
+      <S.Title type={type}>{title}</S.Title>
+      <S.Icon name={icon[type]} type={type} />
     </S.Header>
 
     <S.Footer>
-      <S.Amount>R$17.400,00</S.Amount>
-      <S.LastTransaction>Ultima entrada dia 13 de Abril</S.LastTransaction>
+      <S.Amount type={type}>{amount}</S.Amount>
+      <S.LastTransaction type={type}>{lastTransaction}</S.LastTransaction>
     </S.Footer>
   </S.Container>
 );
