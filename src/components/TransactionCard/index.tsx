@@ -7,7 +7,7 @@ interface Category {
   icon: string;
 }
 
-interface Data {
+export interface DataProps {
   type: 'positive' | 'negative';
   title: string;
   amount: string;
@@ -16,7 +16,7 @@ interface Data {
 }
 
 interface TransactionCardProps {
-  data: Data;
+  data: DataProps;
 }
 
 const TransactionCard = ({ data }: TransactionCardProps) => (
