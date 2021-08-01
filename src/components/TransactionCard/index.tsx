@@ -7,29 +7,32 @@ interface Category {
   icon: string;
 }
 
-interface TransactionCardProps {
+interface Data {
+  type: 'positive' | 'negative';
   title: string;
   amount: string;
   category: Category;
   date: string;
 }
 
-const TransactionCard = ({
-  title,
-  amount,
-  category,
-  date,
-}: TransactionCardProps) => (
+interface TransactionCardProps {
+  data: Data;
+}
+
+const TransactionCard = ({ data }: TransactionCardProps) => (
   <S.Container>
-    <S.Title>{title}</S.Title>
-    <S.Amount>{amount}</S.Amount>
+    <S.Title>{data.title}</S.Title>
+    <S.Amount type={data.type}>
+      {data.type === 'negative' && '-'}
+      {data.amount}
+    </S.Amount>
 
     <S.Footer>
       <S.Category>
-        <S.Icon name="dollar-sign" />
-        <S.CategoryName>{category}</S.CategoryName>
+        <S.Icon name={data.category.icon} />
+        <S.CategoryName>{data.category.name}</S.CategoryName>
       </S.Category>
-      <S.Date>{date}</S.Date>
+      <S.Date>{data.date}</S.Date>
     </S.Footer>
   </S.Container>
 );
