@@ -13,7 +13,7 @@ const App: React.FC = () => (
   <ThemeProvider theme={Theme}>
     <NavigationContainer>
       <Routes />
-      <StatusBar backgroundColor="#ccc" />
+      <StatusBar backgroundColor={`${Theme.colors.primary}`} />
       <FlashMessage position="top" />
     </NavigationContainer>
   </ThemeProvider>
