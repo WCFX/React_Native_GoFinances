@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as S from './styles';
 
-import HighlightCard from '../../components/HighlightCard';
+import { HighlightCard, TransactionCard } from '../../components';
 
 const Home = () => (
   <S.Container>
@@ -50,6 +50,17 @@ const Home = () => (
         lastTransaction="01 à 16 de Abril"
       />
     </S.HightLightCardContainer>
+
+    <S.Transactions>
+      <S.Title>Listagem</S.Title>
+
+      <TransactionCard
+        date="01/08/2021"
+        title="Vendas de Apps IOS"
+        amount="R$12.000,00"
+        category={{ name: 'vendas', icon: 'dollar-sign' }}
+      />
+    </S.Transactions>
   </S.Container>
 );
 
