@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
+import { Modal } from 'react-native';
 
 import * as S from './styles';
 
 import {
   Button,
-  CategorySelect,
+  CategorySelectButton,
   Input,
   TransactionButton,
 } from '../../components';
+import CategorySelect from '../CategorySelect';
 
 const Register = () => {
   const [transactionType, setTransactionType] = useState('');
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
 
   function handleTransactionTypeSelected(type: 'up' | 'down') {
     setTransactionType(type);
+  }
+
+  function handleCloseSelectCategory() {
+    setCategoryModalOpen(false);
   }
 
   return (
@@ -41,10 +48,18 @@ const Register = () => {
             />
           </S.TransactionButtonContainer>
 
-          <CategorySelect title="Categoria" />
+          <CategorySelectButton title="Categoria" />
         </S.Fields>
         <Button title="Enviar" />
       </S.Form>
+
+      <Modal visible={categoryModalOpen}>
+        <CategorySelect
+          category=""
+          setCategory={}
+          closeSelectCategory={handleCloseSelectCategory}
+        />
+      </Modal>
     </S.Container>
   );
 };

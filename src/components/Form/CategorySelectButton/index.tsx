@@ -6,7 +6,7 @@ export interface Props {
   title: string;
 }
 
-const CategorySelect = ({ title }: Props) => {
+const CategorySelectButton = ({ title }: Props) => {
   return (
     <S.Container>
       <S.Category>{title}</S.Category>
@@ -15,4 +15,4 @@ const CategorySelect = ({ title }: Props) => {
   );
 };
 
-export default CategorySelect;
+export default CategorySelectButton;
