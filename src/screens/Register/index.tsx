@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 
 import * as S from './styles';
 
-import { Button, Input, TransactionButton } from '../../components';
+import {
+  Button,
+  CategorySelect,
+  Input,
+  TransactionButton,
+} from '../../components';
 
 const Register = () => {
   const [transactionType, setTransactionType] = useState('');
@@ -35,6 +40,8 @@ const Register = () => {
               type="down"
             />
           </S.TransactionButtonContainer>
+
+          <CategorySelect title="Categoria" />
         </S.Fields>
         <Button title="Enviar" />
       </S.Form>
