@@ -3,7 +3,7 @@ import { TextInputProps } from 'react-native';
 
 import * as S from './styles';
 
-type Props = TextInputProps;
+export interface Props extends TextInputProps {}
 
 const Input = ({ ...rest }: Props) => {
   return <S.Container {...rest} />;

@@ -58,7 +58,7 @@ const Register = () => {
 
           <CategorySelectButton
             onPress={handleOpenSelectCategoryModal}
-            title="Categoria"
+            title={category.name}
           />
         </S.Fields>
         <Button title="Enviar" />

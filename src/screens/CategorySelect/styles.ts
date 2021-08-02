@@ -37,7 +37,7 @@ export const Category = styled.TouchableOpacity<CategoryProps>`
   ${({ isActive, theme }) =>
     isActive &&
     css`
-      background-color: ${theme.colors.primary_light};
+      background-color: ${theme.colors.primary};
       border-width: ${StyleSheet.hairlineWidth}px;
       border-style: solid;
       border-color: ${theme.colors.text_dark};
