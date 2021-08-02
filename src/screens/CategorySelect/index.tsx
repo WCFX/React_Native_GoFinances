@@ -11,13 +11,13 @@ interface CategoryProps {
   name: string;
 }
 
-interface Props {
-  category: string;
+export interface Props {
+  category: CategoryProps;
   setCategory: (category: CategoryProps) => void;
   closeSelectCategory: () => void;
 }
 
-const CategorySelect: React.FC = ({
+const CategorySelect = ({
   category,
   setCategory,
   closeSelectCategory,
@@ -42,7 +42,7 @@ const CategorySelect: React.FC = ({
       />
 
       <S.Footer>
-        <Button title="Botao da morte" />
+        <Button onPress={closeSelectCategory} title="Selecionar" />
       </S.Footer>
     </S.Container>
   );

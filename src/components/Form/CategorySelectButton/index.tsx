@@ -4,11 +4,12 @@ import * as S from './styles';
 
 export interface Props {
   title: string;
+  onPress: () => void;
 }
 
-const CategorySelectButton = ({ title }: Props) => {
+const CategorySelectButton = ({ onPress, title }: Props) => {
   return (
-    <S.Container>
+    <S.Container onPress={onPress}>
       <S.Category>{title}</S.Category>
       <S.Icon name="chevron-down" />
     </S.Container>

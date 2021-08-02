@@ -14,12 +14,20 @@ import CategorySelect from '../CategorySelect';
 const Register = () => {
   const [transactionType, setTransactionType] = useState('');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+  const [category, setCategory] = useState({
+    key: 'category',
+    name: 'categoria',
+  });
 
   function handleTransactionTypeSelected(type: 'up' | 'down') {
     setTransactionType(type);
   }
 
-  function handleCloseSelectCategory() {
+  function handleOpenSelectCategoryModal() {
+    setCategoryModalOpen(true);
+  }
+
+  function handleCloseSelectCategoryModal() {
     setCategoryModalOpen(false);
   }
 
@@ -48,16 +56,19 @@ const Register = () => {
             />
           </S.TransactionButtonContainer>
 
-          <CategorySelectButton title="Categoria" />
+          <CategorySelectButton
+            onPress={handleOpenSelectCategoryModal}
+            title="Categoria"
+          />
         </S.Fields>
         <Button title="Enviar" />
       </S.Form>
 
       <Modal visible={categoryModalOpen}>
         <CategorySelect
-          category=""
-          setCategory={}
-          closeSelectCategory={handleCloseSelectCategory}
+          category={category}
+          setCategory={setCategory}
+          closeSelectCategory={handleCloseSelectCategoryModal}
         />
       </Modal>
     </S.Container>
