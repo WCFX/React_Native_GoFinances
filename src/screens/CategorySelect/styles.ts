@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 import { RFValue } from 'react-native-responsive-fontsize';
 import Feather from 'react-native-vector-icons/Feather';
@@ -39,4 +39,15 @@ export const Icon = styled(Feather)`
 export const Name = styled.Text`
   font-family: ${({ theme }) => theme.fonts.Roboto400};
   font-size: ${RFValue(14)}px;
+`;
+
+export const Separator = styled.View`
+  height: ${StyleSheet.hairlineWidth}px;
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.title};
+`;
+
+export const Footer = styled.View`
+  width: 100%;
+  padding: 24px;
 `;

@@ -3,6 +3,7 @@ import { FlatList } from 'react-native';
 
 import * as S from './styles';
 
+import { Button } from '../../components';
 import { categories } from '../../utils/categories';
 
 interface CategoryProps {
@@ -37,7 +38,12 @@ const CategorySelect: React.FC = ({
             <S.Name>{item.name}</S.Name>
           </S.Category>
         )}
+        ItemSeparatorComponent={() => <S.Separator />}
       />
+
+      <S.Footer>
+        <Button title="Botao da morte" />
+      </S.Footer>
     </S.Container>
   );
 };
