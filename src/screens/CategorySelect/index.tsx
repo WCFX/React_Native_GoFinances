@@ -22,6 +22,10 @@ const CategorySelect = ({
   setCategory,
   closeSelectCategory,
 }: Props) => {
+  function handleCategorySelect(category: CategoryProps) {
+    setCategory(category);
+  }
+
   return (
     <S.Container>
       <S.Header>
@@ -33,9 +37,12 @@ const CategorySelect = ({
         style={{ flex: 1, width: '100%' }}
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
-          <S.Category>
-            <S.Icon name={item.icon} />
-            <S.Name>{item.name}</S.Name>
+          <S.Category
+            isActive={category.key === item.key}
+            onPress={() => handleCategorySelect(item)}
+          >
+            <S.Icon isActive={category.key === item.key} name={item.icon} />
+            <S.Name isActive={category.key === item.key}>{item.name}</S.Name>
           </S.Category>
         )}
         ItemSeparatorComponent={() => <S.Separator />}

@@ -2,7 +2,11 @@ import { Platform, StyleSheet } from 'react-native';
 
 import { RFValue } from 'react-native-responsive-fontsize';
 import Feather from 'react-native-vector-icons/Feather';
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
+
+interface CategoryProps {
+  isActive: boolean;
+}
 
 export const Container = styled.View`
   flex: 1;
@@ -24,21 +28,42 @@ export const Title = styled.Text`
   font-size: ${RFValue(18)}px;
 `;
 
-export const Category = styled.View`
+export const Category = styled.TouchableOpacity<CategoryProps>`
   width: 100%;
   padding: ${RFValue(15)}px;
   flex-direction: row;
   align-items: center;
+
+  ${({ isActive, theme }) =>
+    isActive &&
+    css`
+      background-color: ${theme.colors.primary_light};
+      border-width: ${StyleSheet.hairlineWidth}px;
+      border-style: solid;
+      border-color: ${theme.colors.text_dark};
+    `};
 `;
 
-export const Icon = styled(Feather)`
+export const Icon = styled(Feather)<Pick<CategoryProps, 'isActive'>>`
   font-size: ${RFValue(20)}px;
   margin-right: 16px;
+  color: ${({ theme }) => theme.colors.title};
+  ${({ isActive, theme }) =>
+    isActive &&
+    css`
+      color: ${theme.colors.shape};
+    `};
 `;
 
-export const Name = styled.Text`
+export const Name = styled.Text<Pick<CategoryProps, 'isActive'>>`
   font-family: ${({ theme }) => theme.fonts.Roboto400};
   font-size: ${RFValue(14)}px;
+  color: ${({ theme }) => theme.colors.title};
+  ${({ isActive, theme }) =>
+    isActive &&
+    css`
+      color: ${theme.colors.shape};
+    `};
 `;
 
 export const Separator = styled.View`
