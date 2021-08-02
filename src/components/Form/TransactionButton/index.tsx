@@ -5,6 +5,7 @@ import * as S from './styles';
 
 export interface Props extends TouchableOpacityProps {
   type: 'up' | 'down';
+  isActive: boolean;
   title: string;
 }
 const icons = {
@@ -12,11 +13,13 @@ const icons = {
   down: 'arrow-down-circle',
 };
 
-const TransactionButton = ({ type, title, ...rest }: Props) => {
+const TransactionButton = ({ isActive, type, title, ...rest }: Props) => {
   return (
-    <S.Container {...rest}>
+    <S.Container type={type} {...rest} isActive={isActive}>
       <S.Icon type={type} name={icons[type]} />
-      <S.Title>{title}</S.Title>
+      <S.Title type={type} isActive={isActive}>
+        {title}
+      </S.Title>
     </S.Container>
   );
 };

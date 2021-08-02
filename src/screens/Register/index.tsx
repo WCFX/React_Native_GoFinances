@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import * as S from './styles';
 
 import { Button, Input, TransactionButton } from '../../components';
 
 const Register = () => {
+  const [transactionType, setTransactionType] = useState('');
+
+  function handleTransactionTypeSelected(type: 'up' | 'down') {
+    setTransactionType(type);
+  }
+
   return (
     <S.Container>
       <S.Header>
@@ -16,8 +22,18 @@ const Register = () => {
           <Input placeholder="Nome" />
           <Input placeholder="Email" />
           <S.TransactionButtonContainer>
-            <TransactionButton title="Icome" type="up" />
-            <TransactionButton title="Outcome" type="down" />
+            <TransactionButton
+              isActive={transactionType === 'up'}
+              onPress={() => handleTransactionTypeSelected('up')}
+              title="Income"
+              type="up"
+            />
+            <TransactionButton
+              isActive={transactionType === 'down'}
+              onPress={() => handleTransactionTypeSelected('down')}
+              title="Outcome"
+              type="down"
+            />
           </S.TransactionButtonContainer>
         </S.Fields>
         <Button title="Enviar" />
