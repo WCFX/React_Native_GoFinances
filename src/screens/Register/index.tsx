@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as S from './styles';
 
-import { Input } from '../../components';
+import { Button, Input, TransactionButton } from '../../components';
 
 const Register = () => {
   return (
@@ -12,8 +12,15 @@ const Register = () => {
       </S.Header>
 
       <S.Form>
-        <Input placeholder="Nome" />
-        <Input placeholder="Email" />
+        <S.Fields>
+          <Input placeholder="Nome" />
+          <Input placeholder="Email" />
+          <S.TransactionButtonContainer>
+            <TransactionButton title="Icome" type="up" />
+            <TransactionButton title="Outcome" type="down" />
+          </S.TransactionButtonContainer>
+        </S.Fields>
+        <Button title="Enviar" />
       </S.Form>
     </S.Container>
   );
