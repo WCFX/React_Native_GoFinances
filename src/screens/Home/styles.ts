@@ -1,4 +1,4 @@
-import { Platform, FlatList } from 'react-native';
+import { Platform, FlatList, PlatformColor } from 'react-native';
 
 import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 import {
@@ -18,7 +18,7 @@ export const Container = styled.View`
 
 export const Header = styled.View`
   width: 100%;
-  height: ${RFPercentage(42)}px;
+  height: ${Platform.OS === 'ios' ? RFPercentage(42) : RFPercentage(38)}px;
 
   background-color: ${({ theme }) => theme.colors.primary};
 `;
@@ -77,7 +77,7 @@ export const HightLightCardContainer = styled.ScrollView.attrs({
 })`
   width: 100%;
   position: absolute;
-  margin-top: ${RFPercentage(20)}px;
+  margin-top: ${Platform.OS === 'ios' ? RFPercentage(20) : RFPercentage(16)}px;
 `;
 
 export const Transactions = styled.View`
