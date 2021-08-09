@@ -17,7 +17,7 @@ export interface Props {
   closeSelectCategory: () => void;
 }
 
-const CategorySelect = ({
+export const CategorySelect = ({
   category,
   setCategory,
   closeSelectCategory,
