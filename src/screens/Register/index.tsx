@@ -19,6 +19,9 @@ const Register = () => {
     name: 'categoria',
   });
 
+  const [name, setName] = useState('');
+  const [amount, setAmount] = useState('');
+
   function handleTransactionTypeSelected(type: 'up' | 'down') {
     setTransactionType(type);
   }
@@ -31,6 +34,16 @@ const Register = () => {
     setCategoryModalOpen(false);
   }
 
+  function handleRegister() {
+    const data = {
+      name,
+      amount,
+      transactionType,
+      category: category.key,
+    };
+    console.log(data);
+  }
+
   return (
     <S.Container>
       <S.Header>
@@ -39,8 +52,17 @@ const Register = () => {
 
       <S.Form>
         <S.Fields>
-          <Input placeholder="Nome" />
-          <Input placeholder="Email" />
+          <Input
+            value={name}
+            onChangeText={(text) => setName(text)}
+            placeholder="Nome"
+          />
+          <Input
+            value={amount}
+            onChangeText={(text) => setAmount(text)}
+            placeholder="Preço"
+            keyboardType="numeric"
+          />
           <S.TransactionButtonContainer>
             <TransactionButton
               isActive={transactionType === 'up'}
@@ -61,7 +83,7 @@ const Register = () => {
             title={category.name}
           />
         </S.Fields>
-        <Button title="Enviar" />
+        <Button onPress={handleRegister} title="Enviar" />
       </S.Form>
 
       <Modal visible={categoryModalOpen}>
