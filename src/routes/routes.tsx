@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import * as View from '../screens/index';
 
-const { Screen, Navigator } = createStackNavigator();
+const { Screen, Navigator } = createBottomTabNavigator();
 
 const Routes: React.FC = () => (
-  <Navigator initialRouteName="Register" screenOptions={{ headerShown: false }}>
+  <Navigator initialRouteName="Home">
     <Screen name="Home" component={View.Home} />
     <Screen name="Register" component={View.Register} />
     <Screen name="CategorySelect" component={View.CategorySelect} />
