@@ -10,9 +10,10 @@ import Input from '../Input';
 export interface Props extends TextInputProps {
   control: Control;
   name: string;
+  error: string;
 }
 
-const InputForm = ({ control, name, ...rest }: Props) => {
+const InputForm = ({ error, control, name, ...rest }: Props) => {
   return (
     <S.Container>
       <Controller
@@ -22,6 +23,7 @@ const InputForm = ({ control, name, ...rest }: Props) => {
           <Input onChangeText={onChange} value={value} {...rest} />
         )}
       />
+      {error && <S.Error>{error}</S.Error>}
     </S.Container>
   );
 };
