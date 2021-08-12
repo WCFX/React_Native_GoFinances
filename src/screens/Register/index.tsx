@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useForm } from 'react-hook-form';
 import { showMessage } from 'react-native-flash-message';
 import * as Yup from 'yup';
@@ -56,7 +57,7 @@ const Register = () => {
     setCategoryModalOpen(false);
   }
 
-  function handleRegister(form: FormData) {
+  async function handleRegister(form: FormData) {
     if (!transactionType) {
       showMessage({
         message: 'Faltou algo 🧐 ',
@@ -75,14 +76,44 @@ const Register = () => {
       });
     }
 
-    const data = {
+    const newTransaction = {
       name: form.name,
       amount: form.amount,
       transactionType,
       category: category.key,
     };
-    console.log(data);
+    try {
+      const data = await AsyncStorage.getItem('@gofinances:transactions');
+      const currentData = data ? JSON.parse(data) : [];
+
+      const dataFormatted = [...currentData, newTransaction];
+
+      await AsyncStorage.setItem(
+        '@gofinances:transactions',
+        JSON.stringify(dataFormatted),
+      );
+    } catch (error) {
+      showMessage({
+        message: 'Não foi possível salvar 😔',
+        icon: 'danger',
+        description: 'Aconteceu algum erro, tente novamente mais tarde.',
+        type: 'danger',
+      });
+    }
   }
+
+  useEffect(() => {
+    async function loadData() {
+      const response = await AsyncStorage.getItem('@gofinances:transactions');
+      console.log(JSON.parse(response!));
+    }
+    loadData();
+
+    // async function removeAll() {
+    //   await AsyncStorage.removeItem('@gofinances:transactions');
+    // }
+    // removeAll();
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -98,27 +129,27 @@ const Register = () => {
               autoCorrect={false}
               name="name"
               control={control}
-              placeholder="Name"
+              placeholder="Nome"
               error={errors.name && errors.name.message}
             />
             <InputForm
               keyboardType="numeric"
               name="amount"
               control={control}
-              placeholder="Amount"
+              placeholder="Valor"
               error={errors.amount && errors.amount.message}
             />
             <S.TransactionButtonContainer>
               <TransactionButton
                 isActive={transactionType === 'up'}
                 onPress={() => handleTransactionTypeSelected('up')}
-                title="Income"
+                title="Entrou"
                 type="up"
               />
               <TransactionButton
                 isActive={transactionType === 'down'}
                 onPress={() => handleTransactionTypeSelected('down')}
-                title="Outcome"
+                title="Saiu"
                 type="down"
               />
             </S.TransactionButtonContainer>
