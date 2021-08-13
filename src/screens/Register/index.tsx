@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import { showMessage } from 'react-native-flash-message';
 import uuid from 'react-native-uuid';
@@ -31,6 +32,8 @@ const schema = Yup.object().shape({
 });
 
 const Register = () => {
+  const { navigate } = useNavigation();
+
   const [transactionType, setTransactionType] = useState('');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   const [category, setCategory] = useState({
@@ -41,6 +44,7 @@ const Register = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -86,15 +90,21 @@ const Register = () => {
       date: new Date(),
     };
     try {
-      const data = await AsyncStorage.getItem('@gofinances:transactions');
+      const dataKey = '@gofinances:transactions';
+      const data = await AsyncStorage.getItem(dataKey);
       const currentData = data ? JSON.parse(data) : [];
 
       const dataFormatted = [...currentData, newTransaction];
 
-      await AsyncStorage.setItem(
-        '@gofinances:transactions',
-        JSON.stringify(dataFormatted),
-      );
+      reset();
+      setTransactionType('');
+      setCategory({
+        key: 'category',
+        name: 'categoria',
+      });
+      navigate('Home');
+
+      await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
     } catch (error) {
       showMessage({
         message: 'Não foi possível salvar 😔',
@@ -104,19 +114,6 @@ const Register = () => {
       });
     }
   }
-
-  useEffect(() => {
-    async function loadData() {
-      const response = await AsyncStorage.getItem('@gofinances:transactions');
-      console.log(JSON.parse(response!));
-    }
-    loadData();
-
-    // async function removeAll() {
-    //   await AsyncStorage.removeItem('@gofinances:transactions');
-    // }
-    // removeAll();
-  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

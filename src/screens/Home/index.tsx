@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { format, formatISO } from 'date-fns';
 
 import * as S from './styles';
 
@@ -10,85 +13,42 @@ export interface DataListProps extends TransactionCardProps {
 }
 
 const Home = () => {
-  const data: DataListProps[] = [
-    {
-      id: '1',
-      type: 'positive',
-      title: 'Venda de App financeiro',
-      amount: 'R$5.700,00',
-      category: {
-        name: 'Salário',
-        icon: 'dollar-sign',
+  const [data, setData] = useState<DataListProps[]>([]);
+
+  async function loadTransaction() {
+    const dataKey = '@gofinances:transactions';
+    const response = await AsyncStorage.getItem(dataKey);
+    const transactions = response ? JSON.parse(response) : [];
+
+    const transactionsFormatted: DataListProps[] = transactions.map(
+      (item: DataListProps) => {
+        const amount = Number(item.amount).toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        });
+
+        const date = Intl.DateTimeFormat('pt-BR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit',
+        }).format(new Date(item.date));
+
+        return {
+          id: item.id,
+          name: item.name,
+          amount,
+          type: item.type,
+          category: item.category,
+          date,
+        };
       },
-      date: '31/08/2021',
-    },
-    {
-      id: '2',
-      type: 'negative',
-      title: 'Bicicleta Spinning',
-      amount: 'R$1.999,00',
-      category: {
-        name: 'Compras',
-        icon: 'shopping-bag',
-      },
-      date: '31/08/2021',
-    },
-    {
-      id: '3',
-      type: 'negative',
-      title: 'Credicard',
-      amount: 'R$4.500,00',
-      category: {
-        name: 'Cartão de Crédito',
-        icon: 'credit-card',
-      },
-      date: '02/08/2021',
-    },
-    {
-      id: '4',
-      type: 'positive',
-      title: 'Salário',
-      amount: 'R$13.700,00',
-      category: {
-        name: 'Emprego',
-        icon: 'dollar-sign',
-      },
-      date: '10/08/2021',
-    },
-    {
-      id: '5',
-      type: 'negative',
-      title: 'Mx Master 3',
-      amount: 'R$580,00',
-      category: {
-        name: 'Compras',
-        icon: 'shopping-bag',
-      },
-      date: '10/08/2021',
-    },
-    {
-      id: '6',
-      type: 'negative',
-      title: 'Cadeira Gamer',
-      amount: 'R$1.600,00',
-      category: {
-        name: 'Compras',
-        icon: 'shopping-bag',
-      },
-      date: '10/08/2021',
-    },
-    {
-      id: '7',
-      type: 'negative',
-      title: 'Monitor 29 inch',
-      amount: 'R$1.700,00',
-      category: {
-        name: 'Compras',
-        icon: 'shopping-bag',
-      },
-      date: '10/08/2021',
-    },
-  ];
+    );
+    setData(transactionsFormatted);
+  }
+
+  useEffect(() => {
+    loadTransaction();
+  }, []);
 
   return (
     <S.Container>

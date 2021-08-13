@@ -9,7 +9,7 @@ interface Category {
 
 export interface DataProps {
   type: 'positive' | 'negative';
-  title: string;
+  name: string;
   amount: string;
   category: Category;
   date: string;
@@ -21,7 +21,7 @@ interface TransactionCardProps {
 
 const TransactionCard = ({ data }: TransactionCardProps) => (
   <S.Container>
-    <S.Title>{data.title}</S.Title>
+    <S.Title>{data.name}</S.Title>
     <S.Amount type={data.type}>
       {data.type === 'negative' && '-'}
       {data.amount}
