@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { ActivityIndicator } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
+import { useTheme } from 'styled-components';
 
 import * as S from './styles';
 
@@ -19,9 +21,11 @@ interface HighlightProps {
 interface HighlightData {
   entries: HighlightProps;
   expensives: HighlightProps;
+  total: HighlightProps;
 }
 
 const Home = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState<DataListProps[]>([]);
   const [highlightData, setHighlightData] = useState<HighlightData>(
     {} as HighlightData,
@@ -66,6 +70,8 @@ const Home = () => {
     );
     setTransactions(transactionsFormatted);
 
+    const total = entriesTotal - expensiveTotal;
+
     setHighlightData({
       entries: {
         amount: entriesTotal.toLocaleString('pt-BR', {
@@ -79,7 +85,14 @@ const Home = () => {
           currency: 'BRL',
         }),
       },
+      total: {
+        amount: total.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        }),
+      },
     });
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -92,62 +105,75 @@ const Home = () => {
     }, []),
   );
 
+  const theme = useTheme();
+
   return (
     <S.Container>
-      <S.Header>
-        <S.UserWrapper>
-          <S.UserInfo>
-            <S.Photo
-              source={{
-                uri: 'https://avatars.githubusercontent.com/u/66399640?v=4',
-              }}
+      {isLoading ? (
+        <S.LoadingContainer>
+          <ActivityIndicator size="large" color={theme.colors.primary} />
+        </S.LoadingContainer>
+      ) : (
+        <>
+          <S.Header>
+            <S.UserWrapper>
+              <S.UserInfo>
+                <S.Photo
+                  source={{
+                    uri: 'https://avatars.githubusercontent.com/u/66399640?v=4',
+                  }}
+                />
+                <S.User>
+                  <S.UserGreeting>Olá, </S.UserGreeting>
+                  <S.UserName>Wagner</S.UserName>
+                </S.User>
+              </S.UserInfo>
+              <S.LogoutButton>
+                <S.LogoutButtonText>
+                  <S.Icon name="poweroff" />
+                </S.LogoutButtonText>
+              </S.LogoutButton>
+            </S.UserWrapper>
+          </S.Header>
+
+          <S.HightLightCardContainer
+            showsHorizontalScrollIndicator={false}
+            horizontal
+          >
+            <HighlightCard
+              type="up"
+              title="Entradas"
+              amount={highlightData.entries.amount}
+              // amount="R$14.000"
+              lastTransaction="Ultima entrada dia 13 de abril"
             />
-            <S.User>
-              <S.UserGreeting>Olá, </S.UserGreeting>
-              <S.UserName>Wagner</S.UserName>
-            </S.User>
-          </S.UserInfo>
-          <S.LogoutButton>
-            <S.LogoutButtonText>
-              <S.Icon name="poweroff" />
-            </S.LogoutButtonText>
-          </S.LogoutButton>
-        </S.UserWrapper>
-      </S.Header>
+            <HighlightCard
+              type="down"
+              title="Saídas"
+              amount={highlightData.expensives.amount}
+              // amount="R$1300.00"
+              lastTransaction="Ultima entrada dia 08 de abril"
+            />
+            <HighlightCard
+              type="total"
+              title="Total"
+              amount={highlightData.total.amount}
+              // amount="R$1300.00"
+              lastTransaction="01 à 16 de Abril"
+            />
+          </S.HightLightCardContainer>
 
-      <S.HightLightCardContainer
-        showsHorizontalScrollIndicator={false}
-        horizontal
-      >
-        <HighlightCard
-          type="up"
-          title="Entradas"
-          amount={highlightData.entries.amount}
-          lastTransaction="Ultima entrada dia 13 de abril"
-        />
-        <HighlightCard
-          type="down"
-          title="Saídas"
-          amount={highlightData.expensives.amount}
-          lastTransaction="Ultima entrada dia 08 de abril"
-        />
-        <HighlightCard
-          type="total"
-          title="Total"
-          amount="R$10.000,00"
-          lastTransaction="01 à 16 de Abril"
-        />
-      </S.HightLightCardContainer>
+          <S.Transactions>
+            <S.Title>Listagem</S.Title>
 
-      <S.Transactions>
-        <S.Title>Listagem</S.Title>
-
-        <S.TransactionList
-          data={transactions}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <TransactionCard data={item} />}
-        />
-      </S.Transactions>
+            <S.TransactionList
+              data={transactions}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => <TransactionCard data={item} />}
+            />
+          </S.Transactions>
+        </>
+      )}
     </S.Container>
   );
 };

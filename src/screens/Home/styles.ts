@@ -16,6 +16,12 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
+export const LoadingContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Header = styled.View`
   width: 100%;
   height: ${Platform.OS === 'ios' ? RFPercentage(38) : RFPercentage(32)}px;
