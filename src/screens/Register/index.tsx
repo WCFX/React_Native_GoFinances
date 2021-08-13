@@ -64,21 +64,11 @@ const Register = () => {
 
   async function handleRegister(form: FormData) {
     if (!transactionType) {
-      showMessage({
-        message: 'Faltou algo 🧐 ',
-        icon: 'danger',
-        description: 'Você esqueceu de selecionar o tipo da transação',
-        type: 'danger',
-      });
+      return;
     }
 
     if (category.key === 'category') {
-      showMessage({
-        message: 'Faltou algo 🧐 ',
-        icon: 'danger',
-        description: 'Você esqueceu de escolher uma categoria',
-        type: 'danger',
-      });
+      return;
     }
 
     const newTransaction = {
@@ -175,3 +165,6 @@ const Register = () => {
 };
 
 export default Register;
+function alert(arg0: string) {
+  throw new Error('Function not implemented.');
+}

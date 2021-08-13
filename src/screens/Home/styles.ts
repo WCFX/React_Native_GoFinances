@@ -1,4 +1,4 @@
-import { Platform, FlatList, PlatformColor } from 'react-native';
+import { Platform, FlatList } from 'react-native';
 
 import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 import {
@@ -18,7 +18,7 @@ export const Container = styled.View`
 
 export const Header = styled.View`
   width: 100%;
-  height: ${Platform.OS === 'ios' ? RFPercentage(42) : RFPercentage(38)}px;
+  height: ${Platform.OS === 'ios' ? RFPercentage(38) : RFPercentage(32)}px;
 
   background-color: ${({ theme }) => theme.colors.primary};
 `;
