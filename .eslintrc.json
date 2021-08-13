@@ -31,6 +31,7 @@
     "rules": {
       "prettier/prettier": "error",
       "no-console": "off",
+      "no-shadow": "off",
       "camelcase": "off",
       "no-unused-expressions": "off",
       "no-use-before-define": "off",

@@ -12,16 +12,37 @@ export interface DataListProps extends TransactionCardProps {
   id: string;
 }
 
-const Home = () => {
-  const [data, setData] = useState<DataListProps[]>([]);
+interface HighlightProps {
+  amount: string;
+}
 
-  async function loadTransaction() {
+interface HighlightData {
+  entries: HighlightProps;
+  expensives: HighlightProps;
+}
+
+const Home = () => {
+  const [transactions, setTransactions] = useState<DataListProps[]>([]);
+  const [highlightData, setHighlightData] = useState<HighlightData>(
+    {} as HighlightData,
+  );
+
+  async function loadTransactions() {
     const dataKey = '@gofinances:transactions';
     const response = await AsyncStorage.getItem(dataKey);
     const transactions = response ? JSON.parse(response) : [];
 
+    let entriesTotal = 0;
+    let expensiveTotal = 0;
+
     const transactionsFormatted: DataListProps[] = transactions.map(
       (item: DataListProps) => {
+        if (item.type === 'positive') {
+          entriesTotal += Number(item.amount);
+        } else {
+          expensiveTotal += Number(item.amount);
+        }
+
         const amount = Number(item.amount).toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL',
@@ -43,16 +64,31 @@ const Home = () => {
         };
       },
     );
-    setData(transactionsFormatted);
+    setTransactions(transactionsFormatted);
+
+    setHighlightData({
+      entries: {
+        amount: entriesTotal.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        }),
+      },
+      expensives: {
+        amount: expensiveTotal.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        }),
+      },
+    });
   }
 
   useEffect(() => {
-    loadTransaction();
+    loadTransactions();
   }, []);
 
   useFocusEffect(
     useCallback(() => {
-      loadTransaction();
+      loadTransactions();
     }, []),
   );
 
@@ -86,13 +122,13 @@ const Home = () => {
         <HighlightCard
           type="up"
           title="Entradas"
-          amount="R$17.000,00"
+          amount={highlightData.entries.amount}
           lastTransaction="Ultima entrada dia 13 de abril"
         />
         <HighlightCard
           type="down"
           title="Saídas"
-          amount="R$7.000,00"
+          amount={highlightData.expensives.amount}
           lastTransaction="Ultima entrada dia 08 de abril"
         />
         <HighlightCard
@@ -107,7 +143,7 @@ const Home = () => {
         <S.Title>Listagem</S.Title>
 
         <S.TransactionList
-          data={data}
+          data={transactions}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <TransactionCard data={item} />}
         />
