@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
+
 // import { format, formatISO } from 'date-fns';
 
 import * as S from './styles';
@@ -49,6 +51,12 @@ const Home = () => {
   useEffect(() => {
     loadTransaction();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadTransaction();
+    }, []),
+  );
 
   return (
     <S.Container>
