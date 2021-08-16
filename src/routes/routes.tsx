@@ -54,7 +54,7 @@ const Routes: React.FC = () => {
           ),
         }}
         name="Resumo"
-        component={View.Register}
+        component={View.Resume}
       />
     </Navigator>
   );

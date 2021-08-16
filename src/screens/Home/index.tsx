@@ -16,6 +16,7 @@ export interface DataListProps extends TransactionCardProps {
 
 interface HighlightProps {
   amount: string;
+  lastTransaction: string;
 }
 
 interface HighlightData {
@@ -35,6 +36,27 @@ const Home = () => {
     const dataKey = '@gofinances:transactions';
     const response = await AsyncStorage.getItem(dataKey);
     const transactions = response ? JSON.parse(response) : [];
+
+    function getLastTransactionDate(
+      collection: DataListProps[],
+      type: 'positive' | 'negative',
+    ) {
+      const lastTransaction = new Date(
+        Math.max.apply(
+          Math,
+          collection
+            .filter((transaction) => transaction.type === type)
+            .map((transaction) => new Date(transaction.date).getTime()),
+        ),
+      );
+
+      return `${lastTransaction.getDate()} de ${lastTransaction.toLocaleString(
+        'pt-BR',
+        {
+          month: 'long',
+        },
+      )}`;
+    }
 
     let entriesTotal = 0;
     let expensiveTotal = 0;
@@ -69,6 +91,15 @@ const Home = () => {
       },
     );
     setTransactions(transactionsFormatted);
+    const lastTransactionEntries = getLastTransactionDate(
+      transactions,
+      'positive',
+    );
+    const lastTransactionExpensives = getLastTransactionDate(
+      transactions,
+      'negative',
+    );
+    const totalInterval = `01 a ${lastTransactionExpensives}`;
 
     const total = entriesTotal - expensiveTotal;
 
@@ -78,18 +109,21 @@ const Home = () => {
           style: 'currency',
           currency: 'BRL',
         }),
+        lastTransaction: `Última entrada dia ${lastTransactionExpensives}`,
       },
       expensives: {
         amount: expensiveTotal.toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL',
         }),
+        lastTransaction: `Última saída dia ${lastTransactionExpensives}`,
       },
       total: {
         amount: total.toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL',
         }),
+        lastTransaction: totalInterval,
       },
     });
     setIsLoading(false);
@@ -144,22 +178,19 @@ const Home = () => {
               type="up"
               title="Entradas"
               amount={highlightData.entries.amount}
-              // amount="R$14.000"
-              lastTransaction="Ultima entrada dia 13 de abril"
+              lastTransaction={highlightData.entries.lastTransaction}
             />
             <HighlightCard
               type="down"
               title="Saídas"
               amount={highlightData.expensives.amount}
-              // amount="R$1300.00"
-              lastTransaction="Ultima entrada dia 08 de abril"
+              lastTransaction={highlightData.expensives.lastTransaction}
             />
             <HighlightCard
               type="total"
               title="Total"
               amount={highlightData.total.amount}
-              // amount="R$1300.00"
-              lastTransaction="01 à 16 de Abril"
+              lastTransaction={highlightData.total.lastTransaction}
             />
           </S.HightLightCardContainer>
 
