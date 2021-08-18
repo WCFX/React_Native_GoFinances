@@ -25,6 +25,6 @@ export const Title = styled.Text`
 `;
 
 export const Amount = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.Poppins700};
+  font-family: ${({ theme }) => theme.fonts.Poppins500};
   font-size: ${RFValue(15)}px;
 `;

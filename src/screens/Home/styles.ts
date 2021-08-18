@@ -31,13 +31,10 @@ export const Header = styled.View`
 
 export const UserWrapper = styled.View`
   width: 100%;
-  padding: 24px;
+  padding: 0 24px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: ${Platform.OS === 'ios'
-    ? getStatusBarHeight() + RFValue(28)
-    : 0}px;
 `;
 
 export const UserInfo = styled.View`
@@ -95,7 +92,9 @@ export const Transactions = styled.View`
 export const Title = styled.Text`
   font-size: ${RFValue(18)}px;
   font-family: ${({ theme }) => theme.fonts.Poppins400};
-  margin-bottom: 16px;
+  margin-top: ${RFValue(28)}px;
+  margin-left: ${RFValue(24)}px;
+  margin-right: ${RFValue(24)}px;
   color: ${({ theme }) => theme.colors.title};
 `;
 

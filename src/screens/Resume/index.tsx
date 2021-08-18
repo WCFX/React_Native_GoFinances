@@ -1,17 +1,86 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as S from './styles';
 
 import HistoryCard from '../../components/HistoryCard';
+import { categories } from '../../utils/categories';
+
+interface TransactionData {
+  type: 'positive' | 'negative';
+  name: string;
+  amount: string;
+  category: string;
+  date: string;
+}
+
+interface CategoryData {
+  name: string;
+  total: string;
+  color: string;
+}
 
 const Resume = () => {
+  const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>(
+    [],
+  );
+
+  async function loadData() {
+    const dataKey = '@gofinances:transactions';
+    const response = await AsyncStorage.getItem(dataKey);
+    const responseFormatted = response ? JSON.parse(response) : [];
+
+    const expensives = responseFormatted.filter(
+      (expensive: TransactionData) => expensive.type === 'negative',
+    );
+
+    const totalByCategory: CategoryData[] = [];
+
+    categories.forEach((category) => {
+      let categorySum = 0;
+
+      expensives.forEach((expensive: TransactionData) => {
+        if (expensive.category === category.key) {
+          categorySum += Number(expensive.amount);
+        }
+      });
+      if (categorySum > 0) {
+        const total = categorySum.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        });
+
+        totalByCategory.push({
+          name: category.name,
+          total,
+          color: category.color,
+        });
+      }
+    });
+    // console.log(totalByCategory);
+    setTotalByCategories(totalByCategory);
+  }
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
   return (
     <S.Container>
       <S.Header>
         <S.Title>Resumo por categoria</S.Title>
       </S.Header>
 
-      <HistoryCard title="Compras" color="red" amount="R$150,50" />
+      <S.Content>
+        {totalByCategories.map((item) => (
+          <HistoryCard
+            title={item.name}
+            color={item.color}
+            amount={item.total}
+          />
+        ))}
+      </S.Content>
     </S.Container>
   );
 };

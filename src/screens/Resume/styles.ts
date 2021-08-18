@@ -8,6 +8,12 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
+export const Content = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    padding: 14,
+  },
+})``;
+
 export const Header = styled.View`
   background-color: ${({ theme }) => theme.colors.primary};
   width: 100%;
