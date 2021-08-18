@@ -16,6 +16,7 @@ interface TransactionData {
 }
 
 interface CategoryData {
+  key: string;
   name: string;
   total: string;
   color: string;
@@ -52,6 +53,7 @@ const Resume = () => {
         });
 
         totalByCategory.push({
+          key: category.key,
           name: category.name,
           total,
           color: category.color,
@@ -75,6 +77,7 @@ const Resume = () => {
       <S.Content>
         {totalByCategories.map((item) => (
           <HistoryCard
+            key={item.key}
             title={item.name}
             color={item.color}
             amount={item.total}
