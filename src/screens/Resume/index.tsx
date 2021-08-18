@@ -87,5 +87,4 @@ const Resume = () => {
     </S.Container>
   );
 };
-
 export default Resume;
