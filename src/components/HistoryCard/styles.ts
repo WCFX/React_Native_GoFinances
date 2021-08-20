@@ -12,11 +12,14 @@ export const Container = styled.View<Pick<Props, 'color'>>`
 
   padding: 13px 24px;
 
-  border-radius: 5px;
+  border-radius: 6px;
   border-left-width: 5px;
+  border-bottom-width: 2px;
+  elevation: 3;
   border-left-color: ${({ color }) => color};
+  border-bottom-color: ${({ color }) => color};
 
-  margin-bottom: 8px;
+  margin: 8px 0;
 `;
 
 export const Title = styled.Text`

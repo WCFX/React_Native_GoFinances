@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { addMonths, subMonths, format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { VictoryPie } from 'victory-native';
 
+import Theme from '../../styles/Theme';
 import * as S from './styles';
 
 import HistoryCard from '../../components/HistoryCard';
@@ -18,22 +23,31 @@ interface TransactionData {
 interface CategoryData {
   key: string;
   name: string;
-  total: string;
+  total: number;
+  totalFormatted: string;
   color: string;
   percent: number;
   percentFormatted: string;
 }
 
 const Resume = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>(
     [],
   );
+
+  function handleDateChange(action: 'next' | 'prev') {
+    if (action === 'next') {
+      setSelectedDate(addMonths(selectedDate, 1));
+    } else {
+      setSelectedDate(subMonths(selectedDate, 1));
+    }
+  }
 
   async function loadData() {
     const dataKey = '@gofinances:transactions';
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted = response ? JSON.parse(response) : [];
-
     const expensives = responseFormatted.filter(
       (expensive: TransactionData) => expensive.type === 'negative',
     );
@@ -43,8 +57,6 @@ const Resume = () => {
         return acc + Number(expensive.amount);
       }, 0)
       .toFixed(2);
-
-    console.log(expensivesTotal);
 
     const totalByCategory: CategoryData[] = [];
 
@@ -57,7 +69,7 @@ const Resume = () => {
         }
       });
       if (categorySum > 0) {
-        const total = categorySum.toLocaleString('pt-BR', {
+        const totalFormatted = categorySum.toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL',
         });
@@ -68,14 +80,14 @@ const Resume = () => {
         totalByCategory.push({
           key: category.key,
           name: category.name,
-          total,
+          total: categorySum,
+          totalFormatted,
           color: category.color,
           percent,
           percentFormatted,
         });
       }
     });
-    console.log(totalByCategory);
     setTotalByCategories(totalByCategory);
   }
 
@@ -90,12 +102,44 @@ const Resume = () => {
       </S.Header>
 
       <S.Content>
+        <S.MonthSelect>
+          <S.MonthSelectButton onPress={() => handleDateChange('prev')}>
+            <S.MonthSelectIcon name="chevron-left" />
+          </S.MonthSelectButton>
+
+          <S.Month>
+            {format(selectedDate, 'MMMM , yyyy', {
+              locale: ptBR,
+            })}
+          </S.Month>
+
+          <S.MonthSelectButton onPress={() => handleDateChange('next')}>
+            <S.MonthSelectIcon name="chevron-right" />
+          </S.MonthSelectButton>
+        </S.MonthSelect>
+        <S.ChartContainer>
+          <VictoryPie
+            style={{
+              labels: {
+                fontSize: RFValue(18),
+                fontWeight: 'bold',
+                fill: Theme.colors.shape,
+              },
+            }}
+            colorScale={totalByCategories.map((category) => category.color)}
+            data={totalByCategories}
+            labelRadius={80}
+            x="percentFormatted"
+            y="total"
+          />
+        </S.ChartContainer>
+
         {totalByCategories.map((item) => (
           <HistoryCard
             key={item.key}
             title={item.name}
             color={item.color}
-            amount={item.total}
+            amount={item.totalFormatted}
           />
         ))}
       </S.Content>
