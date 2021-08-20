@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 import { addMonths, subMonths, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -49,7 +50,10 @@ const Resume = () => {
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted = response ? JSON.parse(response) : [];
     const expensives = responseFormatted.filter(
-      (expensive: TransactionData) => expensive.type === 'negative',
+      (expensive: TransactionData) =>
+        expensive.type === 'negative' &&
+        new Date(expensive.date).getMonth() === selectedDate.getMonth() &&
+        new Date(expensive.date).getFullYear() === selectedDate.getFullYear(),
     );
 
     const expensivesTotal = expensives
@@ -91,9 +95,11 @@ const Resume = () => {
     setTotalByCategories(totalByCategory);
   }
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, [selectedDate]),
+  );
 
   return (
     <S.Container>
