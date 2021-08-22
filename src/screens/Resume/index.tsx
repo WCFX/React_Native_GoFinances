@@ -123,7 +123,7 @@ const Resume = () => {
             </S.MonthSelectButton>
 
             <S.Month>
-              {format(selectedDate, 'MMMM , yyyy', {
+              {format(selectedDate, "dd 'de' MMMM , yyyy", {
                 locale: ptBR,
               })}
             </S.Month>
