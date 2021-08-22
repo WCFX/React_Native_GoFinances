@@ -14,7 +14,7 @@ const Routes: React.FC = () => {
 
   return (
     <Navigator
-      initialRouteName="Home"
+      initialRouteName="SignIn"
       tabBarOptions={{
         activeTintColor: theme.colors.secondary,
         inactiveTintColor: theme.colors.title,
@@ -56,6 +56,7 @@ const Routes: React.FC = () => {
         name="Resumo"
         component={View.Resume}
       />
+      <Screen name="SignIn" component={View.SignIn} />
     </Navigator>
   );
 };
