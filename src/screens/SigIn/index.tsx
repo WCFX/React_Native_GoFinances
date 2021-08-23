@@ -6,8 +6,12 @@ import * as S from './styles';
 
 import { AppleSvg, GoogleSvg, LogoSvg } from '../../assets';
 import { SignInSocialButton } from '../../components';
+import { useAuth } from '../../hooks/Auth';
 
 const SignIn = () => {
+  const { user } = useAuth();
+  console.log(user);
+
   return (
     <S.Container>
       <S.Header>

@@ -11,12 +11,16 @@ import { ThemeProvider } from 'styled-components/native';
 
 import Theme from './styles/Theme';
 
+import { AuthProvider } from './hooks/Auth';
 import Routes from './routes/routes';
 
 const App: React.FC = () => (
   <ThemeProvider theme={Theme}>
     <NavigationContainer>
-      <Routes />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
+
       <StatusBar backgroundColor={`${Theme.colors.primary}`} />
       <FlashMessage position="top" />
     </NavigationContainer>
