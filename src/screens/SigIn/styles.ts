@@ -33,8 +33,8 @@ export const SignInTitle = styled.Text`
   color: ${({ theme }) => theme.colors.shape};
   font-size: ${RFValue(16)}px;
   text-align: center;
-  margin-top: 80px;
-  margin-bottom: 67px;
+  margin-top: 40px;
+  margin-bottom: 40px;
 `;
 
 export const Footer = styled.View`

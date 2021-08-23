@@ -19,7 +19,7 @@ const SignIn = () => {
         </S.Title>
 
         <S.SignInTitle>
-          Faça su login com{'\n'} uma das contas abaixo
+          Faça seu login com{'\n'} uma das contas abaixo
         </S.SignInTitle>
       </S.Header>
 
